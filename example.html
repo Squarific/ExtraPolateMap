@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="brain.js"></script>
+		<script src="ExtraPolateMap.js"></script>
+		<script>
+			function start () {
+				var w = 600, h = 600;
+				var coorddata = [], data = [];
+				for (var k = 0; k < 20; k++) {
+					var x = Math.floor(Math.random() * 160 + 220),
+						y = Math.floor(Math.random() * 160 + 220);
+					var sign = (Math.random() < 0.5) ? -1 : 1;
+					var output = Math.min(1, Math.sqrt((x - 300) * (x - 300) + (y - 300) * (y - 300) + sign * Math.random() * 5) / 100);
+					data.push({input: [x/w, y/h], output: [output]});
+					coorddata.push({x: x, y: y, output: output});
+				}
+				for (var k = 0; k < 50; k++) {
+					var x = Math.floor(Math.random() * w),
+						y = Math.floor(Math.random() * h);
+					var output = Math.min(1, Math.sqrt((x - 300) * (x - 300) + (y - 300) * (y - 300)) / 100);
+					if (output !== 1) {
+						k--;
+						continue;
+					}
+					data.push({input: [x/w, y/h], output: [output]});
+					coorddata.push({x: x, y: y, output: output});
+				}
+				new SQUARIFIC.ExtraPolateMap(data, coorddata, {
+					errorThresh: 0.004,
+					iterations: 15000,
+					log: true,
+					logPeriod: 100,
+					hiddenLayers: [22],
+					learningRate: 0.4
+				}, [{r: , g: , b: , max: }]).draw(document.getElementById("map"), 0, 0).drawInput(document.getElementById("map"), 0, 0);
+			}
+		</script>
+	</head>
+	<body onload="start()">
+		<canvas id="map" width="600" height="600">
+		</canvas>
+	</body>
+</html>
