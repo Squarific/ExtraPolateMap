@@ -28,10 +28,10 @@ SQUARIFIC.ExtraPolateMap = function ExtraPolateMap (data, coorddata, settings, c
 		for (var x = 0; x < canvas.width; x++) {
 			for (var y = 0; y < canvas.height; y++) {
 				var k = y * canvas.width * 4 + x * 4;
-				var c = this.getColor(net.run([x / canvas.width, y / canvas.height])[0]);
-				pixelData.data[k    ] = c.r;
-				pixelData.data[k + 1] = c.g;
-				pixelData.data[k + 2] = c.b;
+				var c = net.run([x / canvas.width, y / canvas.height]) * 255;
+				pixelData.data[k    ] = c;
+				pixelData.data[k + 1] = c;
+				pixelData.data[k + 2] = c;
 				pixelData.data[k + 3] = 255;
 			}
 		}
